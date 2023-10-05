@@ -4,12 +4,26 @@ using UnityEngine;
 
 public class PlayerAttractor : MonoBehaviour
 {
+    //シングルトン
+    public static PlayerAttractor instance;
+
     public float attractionRange = 10f;     // 引き寄せる範囲
     public float attractionForce = 5f;      // 引き寄せる力
     public float maxSpeed = 10f;            // 最大速度
     public float stopDistance = 2f;         // 停止距離
     public KeyCode attractionKey = KeyCode.Q; // 引き寄せるキー
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private void FixedUpdate()
     {
         if (Input.GetKey(attractionKey))

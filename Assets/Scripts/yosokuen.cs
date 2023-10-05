@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class yosokuen : MonoBehaviour
 {
+   
     // ターゲットとなるオブジェクトのTransformコンポーネントを取得
     private Transform targetTransform;
-
+    private KeyCode hikiyosae;
+    private KeyCode attack;
+    // public float attackSize = 0.0f;
+    private float range;
+    //public bool attckOk;
+    //public KeyCode attractionKey = KeyCode.E; // 引き寄せるキー
     // オブジェクトの初期サイズと新しいサイズを設定
     private Vector3 initialSize;
-    private Vector3 newSize = new Vector3(2.0f, 2.0f, 2.0f); // 例として2倍の大きさに変更
+    //public Vector3 newSize = new Vector3(2.0f, 2.0f, 2.0f); // 例として2倍の大きさに変更
+
 
     // サイズ変更の速度
-    public float sizeChangeSpeed = 1.0f;
+    //public float sizeChangeSpeed = 1.0f;
 
     private bool isResizing = false;
 
@@ -27,13 +34,15 @@ public class yosokuen : MonoBehaviour
 
     private void Update()
     {
-        // 例としてスペースキーを押すとサイズを変更する
-        if (Input.GetKeyDown(KeyCode.Space))
+        //otamesi = PlayerAttractor.instance.attractionKey;
+        attack = PlayerAttack.instance.attackKey;
+        range = PlayerAttack.instance.interactionRange * 0.07f;
+        if(Input.GetKey(attack))
         {
             isResizing = true;
         }
         // リセットする場合（初期サイズに戻す）
-        else if (Input.GetKeyDown(KeyCode.R))
+        else
         {
             isResizing = false;
             targetTransform.localScale = initialSize;
@@ -43,7 +52,13 @@ public class yosokuen : MonoBehaviour
         if (isResizing)
         {
             // 新しいサイズに向かって徐々に変更
-            targetTransform.localScale = Vector3.Lerp(targetTransform.localScale, newSize, sizeChangeSpeed * Time.deltaTime);
+            targetTransform.localScale = new Vector3(range,range,range);
+            //Debug.Log(targetTransform.localScale);
+
+            //if (targetTransform.localScale == newSize)
+            //{
+            //    attckOk = true;
+            //}
         }
     }
 
