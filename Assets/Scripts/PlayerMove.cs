@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float speed = 5.0f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float moveSpeed = 50.0f; // プレイヤーの移動速度
 
-    // Update is called once per frame
     void Update()
     {
-        // キーボードの入力を取得
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        // プレイヤーの移動
-        Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput) * speed * Time.deltaTime;
+        // 入力に基づいて移動ベクトルを作成
+        Vector3 movement = new Vector3(horizontalInput, 0.0f, verticalInput) * moveSpeed * Time.deltaTime;
+
+        // プレイヤーを移動させる
         transform.Translate(movement);
+
+        //// プレイヤーの向きをカメラの方向に合わせる
+        //if (movement != Vector3.zero)
+        //{
+        //    Quaternion newRotation = Quaternion.LookRotation(movement);
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, 0.1f);
+        //}
     }
 }

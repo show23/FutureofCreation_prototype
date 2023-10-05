@@ -4,27 +4,17 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
-    private GameObject player;   //プレイヤー情報格納用
-    private Vector3 offset;      //相対距離取得用
-
-    // Use this for initialization
-    void Start()
+    public Transform player;  // プレイヤーのTransform
+    public Vector3 offset;  // プレイヤーとカメラの相対位置
+    public float smoothTime = 0.3f;  // カメラがプレイヤーを追跡する際のスムーズさの調整用パラメータ
+    private Vector3 velocity = Vector3.zero;  // カメラ移動時の速度ベクトル
+    // プレイヤー移動後にカメラ移動をさせたいので、LateUpdateを使う
+    void LateUpdate()
     {
-
-        //unitychanの情報を取得
-        this.player = GameObject.Find("Player");
-
-        // MainCamera(自分自身)とplayerとの相対距離を求める
-        offset = transform.position - player.transform.position;
-
+        // プレイヤーの位置にカメラを追従させる
+        Vector3 targetPosition = player.position + offset;
+        targetPosition.z = transform.position.z;
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-        //新しいトランスフォームの値を代入する
-        transform.position = player.transform.position + offset;
-
-    }
 }

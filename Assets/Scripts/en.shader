@@ -1,65 +1,48 @@
-Shader "Unlit/en"
+Shader "HDRP/UnlitEN"
 {
     Properties
     {
         _Color("Color", Color) = (1.0, 0.0, 0.0, 0.5)
     }
+
         SubShader
     {
-        Tags {"RenderType" = "Opaque" "Queue" = "Geometry+1"}
-
-        CGINCLUDE
-        half4 _Color;
-        float4 vert(float4 vertex : POSITION) : SV_POSITION
+        Tags
         {
-            return UnityObjectToClipPos(vertex);
+            "RenderPipeline" = "HDRP"
+            "Queue" = "Transparent"
         }
-        half4 frag() : SV_Target
-        {
-            return _Color;
-        }
-        ENDCG
 
         Pass
         {
-            // 第1パスでは画面上に色は塗らず、ステンシルの構築だけを行う
-            ColorMask 0
-            ZWrite Off
+            Blend SrcAlpha OneMinusSrcAlpha
 
-                // 前面・背面両方について処理を行う
-                Cull Off
+            HLSLPROGRAM
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/Color.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/Common.hlsl"
 
-                // すでに描画された不透明オブジェクト表面のうち、このオブジェクトに
-                // 包まれている領域がステンシル値1になるようにする
-                Stencil
-                {
-                    ZFailFront DecrWrap
-                    ZFailBack IncrWrap
-                }
-
-                CGPROGRAM
-                #pragma vertex vert
-                #pragma fragment frag
-                ENDCG
-            }
-            Pass
+            struct Attributes
             {
-                Cull Front
-                ZTest Always
-                ZWrite Off
-                Blend SrcAlpha OneMinusSrcAlpha
+                float4 vertex : POSITION;
+            };
 
-                // 第2パスで、ステンシル値が0でない領域にだけ色を塗る
-                Stencil
-                {
-                    Ref 0
-                    Comp NotEqual
-                }
+            struct Varyings
+            {
+                float4 position : TEXCOORD0;
+            };
 
-                CGPROGRAM
-                #pragma vertex vert
-                #pragma fragment frag
-                ENDCG
+            Varyings vert(Attributes input)
+            {
+                Varyings output;
+                output.position = UnityObjectToClipPos(input.vertex);
+                return output;
             }
+
+            half4 frag(Varyings i) : SV_Target
+            {
+                return _Color;
+            }
+            ENDHLSL
+        }
     }
 }
