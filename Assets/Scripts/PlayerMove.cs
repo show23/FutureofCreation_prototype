@@ -4,24 +4,38 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed = 50.0f; // プレイヤーの移動速度
+    float inputHorizontal;
+    float inputVertical;
+    Rigidbody rb;
+
+    float moveSpeed = 50f;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        inputHorizontal = Input.GetAxisRaw("Horizontal");
+        inputVertical = Input.GetAxisRaw("Vertical");
+    }
 
-        // 入力に基づいて移動ベクトルを作成
-        Vector3 movement = new Vector3(horizontalInput, 0.0f, verticalInput) * moveSpeed * Time.deltaTime;
+    void FixedUpdate()
+    {
+        // カメラの方向から、X-Z平面の単位ベクトルを取得
+        Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
-        // プレイヤーを移動させる
-        transform.Translate(movement);
+        // 方向キーの入力値とカメラの向きから、移動方向を決定
+        Vector3 moveForward = cameraForward * inputVertical + Camera.main.transform.right * inputHorizontal;
 
-        //// プレイヤーの向きをカメラの方向に合わせる
-        //if (movement != Vector3.zero)
-        //{
-        //    Quaternion newRotation = Quaternion.LookRotation(movement);
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, 0.1f);
-        //}
+        // 移動方向にスピードを掛ける。ジャンプや落下がある場合は、別途Y軸方向の速度ベクトルを足す。
+        rb.velocity = moveForward * moveSpeed + new Vector3(0, rb.velocity.y, 0);
+
+        // キャラクターの向きを進行方向に
+        if (moveForward != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(moveForward);
+        }
     }
 }

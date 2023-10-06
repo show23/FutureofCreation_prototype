@@ -11,6 +11,13 @@ public class PlayerAttack : MonoBehaviour
     public KeyCode attackKey = KeyCode.E; // 引き寄せるキー
     public float increasedRange = 10.0f; // キーが押されている間に拡大する範囲
 
+
+
+    public GameObject beamPrefab; // ビームのプレハブ
+    public Transform firePoint;   // ビームの発射位置
+    public float beamSpeed = 10f; // ビームの速度
+
+
     private void Awake()
     {
         if (instance == null)
@@ -44,7 +51,21 @@ public class PlayerAttack : MonoBehaviour
             // キーが離されたらinteractionRangeを元に戻す
             interactionRange = 0.0f; // 初期値に戻す、必要に応じて変更
         }
-        
+
+
+        // スペースキーが押されたらビームを発射
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // 一番近くの敵を探す
+            GameObject nearestEnemy = FindNearestEnemy();
+
+            // ターゲットが設定されている場合
+            if (nearestEnemy != null)
+            {
+                // ビームを発射
+                ShootBeam(nearestEnemy);
+            }
+        }
     }
 
     void InteractWithEnemy()
@@ -71,7 +92,38 @@ public class PlayerAttack : MonoBehaviour
             }
         }
     }
+    GameObject FindNearestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy"); // 敵のタグを設定しておく
 
+        GameObject nearestEnemy = null;
+        float nearestDistance = Mathf.Infinity;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < nearestDistance)
+            {
+                nearestEnemy = enemy;
+                nearestDistance = distance;
+            }
+        }
+
+        return nearestEnemy;
+    }
+
+    void ShootBeam(GameObject target)
+    {
+        // ビームをプレファブからインスタンス化
+        GameObject beamInstance = Instantiate(beamPrefab, firePoint.position, firePoint.rotation);
+
+        // ビームの方向を設定（追尾）
+        Vector3 direction = (target.transform.position - firePoint.position).normalized;
+        beamInstance.GetComponent<Rigidbody>().velocity = direction * beamSpeed;
+
+        // 一定時間後にビームを破壊する（例：1秒後）
+        Destroy(beamInstance, 5f);
+    }
     private void OnDrawGizmos()
     {
         // ギズモの色を設定
