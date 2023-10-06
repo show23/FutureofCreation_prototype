@@ -11,12 +11,11 @@ public class PlayerAttack : MonoBehaviour
     public KeyCode attackKey = KeyCode.E; // 引き寄せるキー
     public float increasedRange = 10.0f; // キーが押されている間に拡大する範囲
 
-
-
     public GameObject beamPrefab; // ビームのプレハブ
     public Transform firePoint;   // ビームの発射位置
     public float beamSpeed = 10f; // ビームの速度
 
+    private Camera mainCamera; // メインカメラの参照
 
     private void Awake()
     {
@@ -28,6 +27,8 @@ public class PlayerAttack : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        mainCamera = Camera.main; // メインカメラを取得
     }
 
     private void Update()
@@ -41,23 +42,15 @@ public class PlayerAttack : MonoBehaviour
         }
         else
         {
-           
-            
-        }
-
-        if (Input.GetKeyUp(attackKey))
-        {
-            InteractWithEnemy();
             // キーが離されたらinteractionRangeを元に戻す
             interactionRange = 0.0f; // 初期値に戻す、必要に応じて変更
         }
 
-
         // スペースキーが押されたらビームを発射
         if (Input.GetKey(KeyCode.Space))
         {
-            // 一番近くの敵を探す
-            GameObject nearestEnemy = FindNearestEnemy();
+            // 一番近くのカメラ内の敵を探す
+            GameObject nearestEnemy = FindNearestEnemyInCamera();
 
             // ターゲットが設定されている場合
             if (nearestEnemy != null)
@@ -70,7 +63,6 @@ public class PlayerAttack : MonoBehaviour
 
     void InteractWithEnemy()
     {
-        
         // Playerの位置
         Vector3 playerPosition = transform.position;
 
@@ -79,7 +71,6 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
-           
             // EnemyとPlayerの距離を計算
             float distance = Vector3.Distance(playerPosition, enemy.transform.position);
 
@@ -88,24 +79,30 @@ public class PlayerAttack : MonoBehaviour
             {
                 // Enemyを破壊
                 Destroy(enemy);
-                
             }
         }
     }
-    GameObject FindNearestEnemy()
+
+    GameObject FindNearestEnemyInCamera()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy"); // 敵のタグを設定しておく
 
         GameObject nearestEnemy = null;
         float nearestDistance = Mathf.Infinity;
 
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(mainCamera); // カメラの視錘台（frustum）のプレーンを取得
+
         foreach (GameObject enemy in enemies)
         {
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distance < nearestDistance)
+            if (GeometryUtility.TestPlanesAABB(planes, enemy.GetComponent<Collider>().bounds))
             {
-                nearestEnemy = enemy;
-                nearestDistance = distance;
+                // カメラの視錘台内にいる敵だけを対象にする
+                float distance = Vector3.Distance(transform.position, enemy.transform.position);
+                if (distance < nearestDistance)
+                {
+                    nearestEnemy = enemy;
+                    nearestDistance = distance;
+                }
             }
         }
 
@@ -121,14 +118,15 @@ public class PlayerAttack : MonoBehaviour
         Vector3 direction = (target.transform.position - firePoint.position).normalized;
         beamInstance.GetComponent<Rigidbody>().velocity = direction * beamSpeed;
 
-        // 一定時間後にビームを破壊する（例：1秒後）
+        // 一定時間後にビームを破壊する（例：5秒後）
         Destroy(beamInstance, 5f);
     }
+
     private void OnDrawGizmos()
     {
         // ギズモの色を設定
         Gizmos.color = Color.yellow;
-        
+
         // ギズモの範囲を表示
         Gizmos.DrawWireSphere(transform.position, interactionRange);
     }

@@ -20,7 +20,7 @@ public class CameraMove : MonoBehaviour
     [SerializeField]
     private LayerMask obstacleLayer;
 
-    void Update()
+    void FixedUpdate()
     {
         //　通常のカメラ位置を計算
         var cameraPos = charaLookAtPosition.position + (-charaLookAtPosition.forward * basePos.z) + (Vector3.up * basePos.y);
