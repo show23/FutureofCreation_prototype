@@ -8,7 +8,7 @@ public class PlayerMove : MonoBehaviour
     float inputVertical;
     Rigidbody rb;
 
-    float moveSpeed = 50f;
+    public float moveSpeed = 30f;
 
     void Start()
     {

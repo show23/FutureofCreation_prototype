@@ -4,56 +4,41 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
-    public GameObject target; // an object to follow
-    public Vector3 offset; // offset form the target object
+    //　キャラクターのTransform
+    [SerializeField]
+    private Transform charaLookAtPosition;
+    //　カメラの移動スピード
+    [SerializeField]
+    private float cameraMoveSpeed = 2f;
+    //　カメラの回転スピード
+    [SerializeField]
+    private float cameraRotateSpeed = 90f;
+    //　カメラのキャラクターからの相対値を指定
+    [SerializeField]
+    private Vector3 basePos = new Vector3(0f, 0f, 2f);
+    // 障害物とするレイヤー
+    [SerializeField]
+    private LayerMask obstacleLayer;
 
-    [SerializeField] private float distance = 4.0f; // distance from following object
-    [SerializeField] private float polarAngle = 45.0f; // angle with y-axis
-    [SerializeField] private float azimuthalAngle = 45.0f; // angle with x-axis
-
-    [SerializeField] private float minDistance = 1.0f;
-    [SerializeField] private float maxDistance = 7.0f;
-    [SerializeField] private float minPolarAngle = 5.0f;
-    [SerializeField] private float maxPolarAngle = 75.0f;
-    [SerializeField] private float mouseXSensitivity = 5.0f;
-    [SerializeField] private float mouseYSensitivity = 5.0f;
-    [SerializeField] private float scrollSensitivity = 5.0f;
-
-    void LateUpdate()
+    void Update()
     {
-        if (Input.GetMouseButton(0))
+        //　通常のカメラ位置を計算
+        var cameraPos = charaLookAtPosition.position + (-charaLookAtPosition.forward * basePos.z) + (Vector3.up * basePos.y);
+        //　カメラの位置をキャラクターの後ろ側に移動させる
+        transform.position = Vector3.Lerp(transform.position, cameraPos, cameraMoveSpeed * Time.deltaTime);
+
+        RaycastHit hit;
+        //　キャラクターとカメラの間に障害物があったら障害物の位置にカメラを移動させる
+        if (Physics.Linecast(charaLookAtPosition.position, transform.position, out hit, obstacleLayer))
         {
-            updateAngle(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            transform.position = hit.point;
         }
-        updateDistance(Input.GetAxis("Mouse ScrollWheel"));
+        //　レイを視覚的に確認
+        Debug.DrawLine(charaLookAtPosition.position, transform.position, Color.red, 0f, false);
 
-        var lookAtPos = target.transform.position + offset;
-        updatePosition(lookAtPos);
-        transform.LookAt(lookAtPos);
-    }
-
-    void updateAngle(float x, float y)
-    {
-        x = azimuthalAngle - x * mouseXSensitivity;
-        azimuthalAngle = Mathf.Repeat(x, 360);
-
-        y = polarAngle + y * mouseYSensitivity;
-        polarAngle = Mathf.Clamp(y, minPolarAngle, maxPolarAngle);
-    }
-
-    void updateDistance(float scroll)
-    {
-        scroll = distance - scroll * scrollSensitivity;
-        distance = Mathf.Clamp(scroll, minDistance, maxDistance);
-    }
-
-    void updatePosition(Vector3 lookAtPos)
-    {
-        var da = azimuthalAngle * Mathf.Deg2Rad;
-        var dp = polarAngle * Mathf.Deg2Rad;
-        transform.position = new Vector3(
-            lookAtPos.x + distance * Mathf.Sin(dp) * Mathf.Cos(da),
-            lookAtPos.y + distance * Mathf.Cos(dp),
-            lookAtPos.z + distance * Mathf.Sin(dp) * Mathf.Sin(da));
+        //　スピードを考慮しない場合はLookAtで出来る
+        //transform.LookAt(charaTra.position);
+        //　スピードを考慮する場合
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(charaLookAtPosition.position - transform.position), cameraRotateSpeed * Time.deltaTime);
     }
 }

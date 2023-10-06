@@ -54,7 +54,7 @@ public class PlayerAttack : MonoBehaviour
 
 
         // スペースキーが押されたらビームを発射
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             // 一番近くの敵を探す
             GameObject nearestEnemy = FindNearestEnemy();
