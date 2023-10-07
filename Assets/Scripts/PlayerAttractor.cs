@@ -11,8 +11,8 @@ public class PlayerAttractor : MonoBehaviour
     public float attractionForce = 5f;      // 引き寄せる力
     public float maxSpeed = 10f;            // 最大速度
     public float stopDistance = 2f;         // 停止距離
-    public KeyCode attractionKey = KeyCode.Q; // 引き寄せるキー
-
+    //public KeyCode attractionKey = KeyCode.Q; // 引き寄せるキー
+    private KeyCode attack;
     private void Awake()
     {
         if (instance == null)
@@ -26,7 +26,8 @@ public class PlayerAttractor : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (Input.GetKey(attractionKey))
+        attack = PlayerAttack.instance.attackKey;
+        if (Input.GetKey(attack))
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, attractionRange);
 

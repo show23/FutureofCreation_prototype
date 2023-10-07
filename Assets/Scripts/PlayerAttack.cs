@@ -10,7 +10,7 @@ public class PlayerAttack : MonoBehaviour
     public float interactionRange = 0.0f; // PlayerとEnemyの間の許容距離
     public KeyCode attackKey = KeyCode.E; // 引き寄せるキー
     public float increasedRange = 10.0f; // キーが押されている間に拡大する範囲
-
+    public float maxInteractionRange = 10.0f; // 最大許容距離
     public GameObject beamPrefab; // ビームのプレハブ
     public Transform firePoint;   // ビームの発射位置
     public float beamSpeed = 10f; // ビームの速度
@@ -38,16 +38,20 @@ public class PlayerAttack : MonoBehaviour
         {
             // interactionRangeを増加させる
             interactionRange += increasedRange * Time.deltaTime;
-            //InteractWithEnemy();
+            // interactionRangeが最大許容距離を超えないように制限
+            interactionRange = Mathf.Min(interactionRange, maxInteractionRange);
+            
         }
         else
         {
+            InteractWithEnemy();
             // キーが離されたらinteractionRangeを元に戻す
             interactionRange = 0.0f; // 初期値に戻す、必要に応じて変更
+            
         }
 
         // スペースキーが押されたらビームを発射
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             // 一番近くのカメラ内の敵を探す
             GameObject nearestEnemy = FindNearestEnemyInCamera();
