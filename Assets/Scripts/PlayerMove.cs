@@ -12,7 +12,7 @@ public class PlayerMove : MonoBehaviour
     Rigidbody rb;
 
     public float moveSpeed = 30f;
-
+    public float dashSpeed = 50f;
 
     private void Awake()
     {

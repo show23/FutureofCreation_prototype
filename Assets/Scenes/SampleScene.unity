@@ -1675,7 +1675,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 1200882712}
   enemyTag: Enemy
-  speed: 50
+  buttonPressDuration: 5
+  maxDistance: 10
+  player: {fileID: 1200882697}
 --- !u!4 &1250840926 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1280e7776f73ba94d87303e40faf30a1, type: 3}
