@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 262.33694, g: 325.04984, b: 430.2193, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -94,7 +94,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 6d7f86cfe3502e2409ab8ee9be36e3d5, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -638,7 +638,7 @@ Transform:
   m_GameObject: {fileID: 522601935}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 2.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1013,7 +1013,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.066037714, g: 0.06311267, b: 0.05513526, a: 1}
-  m_Intensity: 130000
+  m_Intensity: 0
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1056,7 +1056,7 @@ Light:
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 0.5, y: 0.5}
   m_BounceIntensity: 1
-  m_ColorTemperature: 7182
+  m_ColorTemperature: 1500
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: -6.9e-44, z: -6.9e-44, w: NaN}
   m_UseBoundingSphereOverride: 0
@@ -1090,7 +1090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 130000
+  m_Intensity: 0
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -1441,7 +1441,7 @@ MonoBehaviour:
   charaLookAtPosition: {fileID: 1200882697}
   cameraMoveSpeed: 2
   cameraRotateSpeed: 90
-  basePos: {x: 0, y: 10, z: 20}
+  basePos: {x: 0, y: 10, z: 30}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -1554,7 +1554,7 @@ MonoBehaviour:
   attackKey: 101
   increasedRange: 100
   maxInteractionRange: 50
-  beamPrefab: {fileID: 1988847445101023975, guid: e9c307df76711834c97f1256ba3164b9, type: 3}
+  beamPrefab: {fileID: 6209920713220862906, guid: a6fcbfa6a24ed7f4d9c091f3c77b8292, type: 3}
   firePoint: {fileID: 522601936}
 --- !u!114 &1200882700
 MonoBehaviour:
