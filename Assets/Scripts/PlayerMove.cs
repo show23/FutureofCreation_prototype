@@ -4,12 +4,27 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+
+    //ƒVƒ“ƒOƒ‹ƒgƒ“
+    public static PlayerMove instance;
     float inputHorizontal;
     float inputVertical;
     Rigidbody rb;
 
     public float moveSpeed = 30f;
 
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -38,4 +53,6 @@ public class PlayerMove : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(moveForward);
         }
     }
+
+   
 }
