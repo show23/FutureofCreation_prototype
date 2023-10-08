@@ -13,7 +13,7 @@ public class PlayerAttack : MonoBehaviour
     public float maxInteractionRange = 10.0f; // 最大許容距離
     public GameObject beamPrefab; // ビームのプレハブ
     public Transform firePoint;   // ビームの発射位置
-    public float beamSpeed = 10f; // ビームの速度
+   // public float beamSpeed = 10f; // ビームの速度
 
     private Camera mainCamera; // メインカメラの参照
 
@@ -40,14 +40,14 @@ public class PlayerAttack : MonoBehaviour
             interactionRange += increasedRange * Time.deltaTime;
             // interactionRangeが最大許容距離を超えないように制限
             interactionRange = Mathf.Min(interactionRange, maxInteractionRange);
-            
+
         }
         else
         {
             InteractWithEnemy();
             // キーが離されたらinteractionRangeを元に戻す
             interactionRange = 0.0f; // 初期値に戻す、必要に応じて変更
-            
+
         }
 
         // スペースキーが押されたらビームを発射
@@ -118,9 +118,11 @@ public class PlayerAttack : MonoBehaviour
         // ビームをプレファブからインスタンス化
         GameObject beamInstance = Instantiate(beamPrefab, firePoint.position, firePoint.rotation);
 
-        // ビームの方向を設定（追尾）
-        Vector3 direction = (target.transform.position - firePoint.position).normalized;
-        beamInstance.GetComponent<Rigidbody>().velocity = direction * beamSpeed;
+        // ビームのスクリプトを取得
+        Bullet beamScript = beamInstance.GetComponent<Bullet>();
+
+        // ビームのターゲットを設定
+        beamScript.SetTarget(target.transform);
 
         // 一定時間後にビームを破壊する（例：5秒後）
         Destroy(beamInstance, 5f);

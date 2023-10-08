@@ -343,6 +343,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ememy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 597394576776907599, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2008539404928295985, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.67
@@ -486,7 +490,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 408698396}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -680,7 +684,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 528125113}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -789,7 +793,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 662457570}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -923,6 +927,10 @@ PrefabInstance:
     - target: {fileID: 597394576776907599, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
       propertyPath: m_Name
       value: Ememy (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 597394576776907599, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2008539404928295985, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1449,6 +1457,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ememy (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 597394576776907599, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2008539404928295985, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.4
@@ -1544,7 +1556,6 @@ MonoBehaviour:
   maxInteractionRange: 50
   beamPrefab: {fileID: 1988847445101023975, guid: e9c307df76711834c97f1256ba3164b9, type: 3}
   firePoint: {fileID: 522601936}
-  beamSpeed: 150
 --- !u!114 &1200882700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1810,7 +1821,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2008539404928295985, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.59
+      value: 108.9
       objectReference: {fileID: 0}
     - target: {fileID: 2008539404928295985, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7050,7 +7061,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116271069}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
