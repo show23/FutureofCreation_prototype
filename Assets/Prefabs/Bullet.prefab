@@ -160,5 +160,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beamSpeed: 100
-  curveStrength: 0.4
-  curveSwitchFrequency: 1
+  curveStrength: 0.37
