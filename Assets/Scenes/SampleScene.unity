@@ -305,7 +305,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 101885486}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d69dd709cb05b6488bb1c1eeb4409c4, type: 3}
   m_Name: 
@@ -1828,7 +1828,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 597394576776907599, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2008539404928295985, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2086,7 +2086,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 597394576776907599, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2008539404928295985, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7091,7 +7091,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893502602}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d69dd709cb05b6488bb1c1eeb4409c4, type: 3}
   m_Name: 
@@ -7247,7 +7247,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1920753919}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d69dd709cb05b6488bb1c1eeb4409c4, type: 3}
   m_Name: 
@@ -7510,7 +7510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 597394576776907599, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2008539404928295985, guid: 1a29f2c48f3134044832aa6b3100f8ec, type: 3}
       propertyPath: m_LocalPosition.x
