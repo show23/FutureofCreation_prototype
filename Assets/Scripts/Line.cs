@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Line : MonoBehaviour
 {
+    //シングルトン
+    public static Line instance;
     public LineRenderer lineRenderer;
     public string enemyTag = "Enemy"; // タグ名を指定
     private List<Transform> touchedEnemies = new List<Transform>(); // プレイヤーが触れた敵を記録するリスト
@@ -19,17 +21,27 @@ public class Line : MonoBehaviour
     public Transform player; // プレイヤーのTransformを格納するための変数
 
 
-
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private void Start()
     {
-        PlayerMove playerMove = GetComponent<PlayerMove>();
-        originalSpeed = playerMove.moveSpeed; // ゲーム開始時の速度を保存
+        
+        originalSpeed = PlayerMove.instance.moveSpeed; // ゲーム開始時の速度を保存
     }
 
     void Update()
     {
-        PlayerMove playermove = GetComponent<PlayerMove>();
-        speed = playermove.moveSpeed;
+        speed = PlayerMove.instance.dashSpeed;
+       
 
         // 左クリックが押されたかをチェック
         if (Input.GetMouseButtonDown(0))
@@ -40,7 +52,7 @@ public class Line : MonoBehaviour
                 buttonPressTime = Time.time;
             }
             isDrawingLine = true;
-            playermove.moveSpeed = 50;
+            originalSpeed = speed;
         }
 
         // 左クリックが離された場合、線を非表示にし、リストをクリア
@@ -48,7 +60,7 @@ public class Line : MonoBehaviour
         {
             isDrawingLine = false; // 線を描画中でない状態にする
             lineRenderer.positionCount = 0; // 線を非表示にする
-            playermove.moveSpeed = originalSpeed; // オリジナルの速度に戻す
+            speed = originalSpeed; // オリジナルの速度に戻す
             touchedEnemies.Clear(); // リストを空にする
         }
 
@@ -66,7 +78,7 @@ public class Line : MonoBehaviour
                     touchedEnemies.Add(enemy.transform);
                     lastTouchedEnemy = enemy.transform;
                 }
-                Debug.Log($"Playerと{enemy.name}の距離: {distance}");
+                //Debug.Log($"Playerと{enemy.name}の距離: {distance}");
             }
 
             // 線を描画中かつボタンが押されている場合、線を描画

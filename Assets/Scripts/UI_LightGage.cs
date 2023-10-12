@@ -9,61 +9,48 @@ public class UI_LightGage : MonoBehaviour
     Image image1;
     Image image2;
 
-    bool mouseButton = false;
-
+    private float playerDistance;
+    private bool gageIncrease = false;
+    private bool gaugeVisible = false;
+    private float distanceMoved;
+    public float fillSpeed = 1f;
     // Start is called before the first frame update
     void Start()
     {
         image2 = GetComponent<Image>();
+        image2.fillAmount = 0f; // ゲージをゼロからスタート
+        image2.fillOrigin = (int)Image.OriginHorizontal.Left; // ゲージの増加を右回りに
+        image1.color = new Color(1f, 1f, 1f, 0f); // 最初は透明
+
+        // ゲージを最初は非表示に
+        image2.enabled = false;
+        image1.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        // Fill Amountによってゲージの色を変える
-        if (image2.fillAmount > 0.5f)
+        
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
-
-            image1.color = Color.red;
-
+            distanceMoved += 1;
         }
-        else if (image2.fillAmount > 0.2f)
+        
+
+        // プレイヤーの距離に応じてimage2.fillAmountを増加
+        float maxDistance = 100.0f; // 例として最大距離を100とします
+        float fillAmount = distanceMoved / maxDistance;
+
+        // ゲージが増加する速度を調整する係数を設定
+        
+        image2.fillAmount = fillAmount * fillSpeed;
+
+        // ゲージが一定以上増加したら色を表示
+        if (image2.fillAmount > 0.01f && !gaugeVisible)
         {
-
-            image1.color = new Color(1f, 0.67f, 0f);
-
+            gaugeVisible = true;
+            image2.enabled = true;
+            image1.enabled = true;
         }
-        else
-        {
-
-            image1.color = Color.green;
-
-        }
-
-        // マウスを使ってゲージを増減させる
-        if (Input.GetMouseButtonDown(0))
-        {
-            mouseButton = true;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            mouseButton = false;
-        }
-
-
-        if (mouseButton)
-        {
-
-            image2.fillAmount += Time.deltaTime;
-
-        }
-        else if (image2.fillAmount > 0f)
-        {
-
-            image2.fillAmount -= Time.deltaTime;
-
-        }
-
     }
 }

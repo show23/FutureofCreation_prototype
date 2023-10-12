@@ -4,12 +4,24 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public static Bullet instance;
     private Transform target; // ビームの追尾対象
     public float beamSpeed = 100f; // ビームの速度
     public float curveStrength = 1f; // カーブの強度
 
     private int curveDirection = 0; // カーブ方向を制御する変数 (0: 上, 1: 左, 2: 右, 3: 上向きカーブ)
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     // 敵の追跡対象を設定
     public void SetTarget(Transform newTarget)
     {

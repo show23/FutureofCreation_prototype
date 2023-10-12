@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-
+   
+    
     //ƒVƒ“ƒOƒ‹ƒgƒ“
     public static PlayerMove instance;
     float inputHorizontal;
@@ -14,6 +15,8 @@ public class PlayerMove : MonoBehaviour
     public float moveSpeed = 30f;
     public float dashSpeed = 50f;
 
+    private Vector3 initialPosition;
+    
     private void Awake()
     {
         if (instance == null)
@@ -28,12 +31,15 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        initialPosition = transform.position;
+        
     }
 
     void Update()
     {
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
+
     }
 
     void FixedUpdate()
@@ -52,6 +58,7 @@ public class PlayerMove : MonoBehaviour
         {
             transform.rotation = Quaternion.LookRotation(moveForward);
         }
+      
     }
 
    

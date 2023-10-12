@@ -19,7 +19,7 @@ MonoBehaviour:
       x: 1185
       y: 727
       width: 1804
-      height: 1805
+      height: 1948
     contents:
     - model: {fileID: 8926484042661614741}
       id: 0
@@ -4934,7 +4934,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 1426, y: 1429}
+  m_UIPosition: {x: 1420, y: 1423}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -13584,7 +13584,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 4096, y: 2071}
+  m_UIPosition: {x: 4152, y: 2059}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
