@@ -4,43 +4,29 @@ using UnityEngine;
 
 public class Line : MonoBehaviour
 {
+    PlayerManager playerManager;
     //シングルトン
-    public static Line instance;
-    public LineRenderer lineRenderer;
-    public string enemyTag = "Enemy"; // タグ名を指定
+   
+   
     private List<Transform> touchedEnemies = new List<Transform>(); // プレイヤーが触れた敵を記録するリスト
     private float speed;
     private float originalSpeed; // オリジナルの速度を保存する変数
     private bool isDrawingLine = false;
     private float buttonPressTime = 0f; // ボタンが押された時間
-    public float buttonPressDuration = 5f; // ボタンを押せる最大時間（秒）
-
-    public float maxDistance = 5f;
+   
     private Transform lastTouchedEnemy; // 最後に触れた敵のTransformを記録する変数
 
-    public Transform player; // プレイヤーのTransformを格納するための変数
-
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+  
+    
     private void Start()
     {
-        
-        originalSpeed = PlayerMove.instance.moveSpeed; // ゲーム開始時の速度を保存
+        playerManager = GetComponent<PlayerManager>();
+        originalSpeed = playerManager.moveSpeed; // ゲーム開始時の速度を保存
     }
 
     void Update()
     {
-        speed = PlayerMove.instance.dashSpeed;
+        speed = playerManager.dashSpeed;
        
 
         // 左クリックが押されたかをチェック
@@ -56,24 +42,24 @@ public class Line : MonoBehaviour
         }
 
         // 左クリックが離された場合、線を非表示にし、リストをクリア
-        if (Input.GetMouseButtonUp(0) || (isDrawingLine && Time.time - buttonPressTime >= buttonPressDuration))
+        if (Input.GetMouseButtonUp(0) || (isDrawingLine && Time.time - buttonPressTime >= playerManager.buttonPressDuration))
         {
             isDrawingLine = false; // 線を描画中でない状態にする
-            lineRenderer.positionCount = 0; // 線を非表示にする
+            playerManager.lineRenderer.positionCount = 0; // 線を非表示にする
             speed = originalSpeed; // オリジナルの速度に戻す
             touchedEnemies.Clear(); // リストを空にする
         }
 
         if (isDrawingLine)
         {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag); // タグが"Enemy"の敵オブジェクトを取得
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag(playerManager.enemyTag); // タグが"Enemy"の敵オブジェクトを取得
 
             foreach (GameObject enemy in enemies)
             {
                 // プレイヤーと敵の距離を計算
-                float distance = Vector3.Distance(player.position, enemy.transform.position);
+                float distance = Vector3.Distance(playerManager.player.position, enemy.transform.position);
 
-                if (distance < maxDistance)
+                if (distance < playerManager.maxDistance)
                 {
                     touchedEnemies.Add(enemy.transform);
                     lastTouchedEnemy = enemy.transform;
@@ -86,16 +72,16 @@ public class Line : MonoBehaviour
             if (touchedEnemies.Count > 0)
             {
                 // 線の長さを設定
-                lineRenderer.positionCount = touchedEnemies.Count + 2; // +2 はPlayerと最後に触れた敵への線分を追加
+                playerManager.lineRenderer.positionCount = touchedEnemies.Count + 2; // +2 はPlayerと最後に触れた敵への線分を追加
 
                 // Playerから最後に触れた敵への線を描画
-                lineRenderer.SetPosition(0, transform.position);
+                playerManager.lineRenderer.SetPosition(0, transform.position);
 
                 // 最後に触れた敵への線を描画
                 if (lastTouchedEnemy != null)
                 {
                     Vector3 lastEnemyPosition = lastTouchedEnemy.position;
-                    lineRenderer.SetPosition(1, lastEnemyPosition);
+                    playerManager.lineRenderer.SetPosition(1, lastEnemyPosition);
                 }
 
                 // リストから破棄されたオブジェクトを削除しながら線を描画
@@ -108,7 +94,7 @@ public class Line : MonoBehaviour
                     if (enemyTransform != null)
                     {
                         Vector3 enemyPosition = enemyTransform.position;
-                        lineRenderer.SetPosition(currentIndex, enemyPosition);
+                        playerManager.lineRenderer.SetPosition(currentIndex, enemyPosition);
                         currentIndex++;
                         i++; // 次の敵をチェック
                     }
@@ -120,9 +106,9 @@ public class Line : MonoBehaviour
                 }
 
                 // 破棄されたオブジェクトをリストから削除した後、余分な頂点をクリア
-                for (int i = currentIndex; i < lineRenderer.positionCount; i++)
+                for (int i = currentIndex; i < playerManager.lineRenderer.positionCount; i++)
                 {
-                    lineRenderer.SetPosition(i, Vector3.zero);
+                    playerManager.lineRenderer.SetPosition(i, Vector3.zero);
                 }
             }
         }
@@ -206,12 +192,5 @@ public class Line : MonoBehaviour
     //        }
     //    }
     //}
-    private void OnDrawGizmos()
-    {
-        // ギズモの色を設定
-        Gizmos.color = Color.blue;
-
-        // ギズモの範囲を表示
-        Gizmos.DrawWireSphere(transform.position, maxDistance);
-    }
+   
 }

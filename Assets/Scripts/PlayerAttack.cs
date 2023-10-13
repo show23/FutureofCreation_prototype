@@ -4,49 +4,33 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    // シングルトン
-    public static PlayerAttack instance;
 
-    public float interactionRange = 0.0f; // PlayerとEnemyの間の許容距離
-    public KeyCode attackKey = KeyCode.E; // 引き寄せるキー
-    public float increasedRange = 10.0f; // キーが押されている間に拡大する範囲
-    public float maxInteractionRange = 10.0f; // 最大許容距離
-    public GameObject beamPrefab; // ビームのプレハブ
-    public Transform firePoint;   // ビームの発射位置
-   // public float beamSpeed = 10f; // ビームの速度
+    PlayerManager playerManager;
+    // public float beamSpeed = 10f; // ビームの速度
+    //private float interactionRange = 0.0f; // PlayerとEnemyの間の許容距離
+   
 
-    private Camera mainCamera; // メインカメラの参照
-
-    private void Awake()
+    private void Start()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-        mainCamera = Camera.main; // メインカメラを取得
+        playerManager = GetComponent<PlayerManager>();
     }
 
     private void Update()
     {
         // キーが押されている間
-        if (Input.GetKey(attackKey))
+        if (Input.GetKey(playerManager.attackKey))
         {
             // interactionRangeを増加させる
-            interactionRange += increasedRange * Time.deltaTime;
+            playerManager.interactionRange += playerManager.increasedSpeed * Time.deltaTime;
             // interactionRangeが最大許容距離を超えないように制限
-            interactionRange = Mathf.Min(interactionRange, maxInteractionRange);
+            playerManager.interactionRange = Mathf.Min(playerManager.interactionRange, playerManager.maxInteractionRange);
 
         }
         else
         {
             InteractWithEnemy();
             // キーが離されたらinteractionRangeを元に戻す
-            interactionRange = 0.0f; // 初期値に戻す、必要に応じて変更
+            playerManager.interactionRange = 0.0f; // 初期値に戻す、必要に応じて変更
 
         }
 
@@ -79,7 +63,7 @@ public class PlayerAttack : MonoBehaviour
             float distance = Vector3.Distance(playerPosition, enemy.transform.position);
 
             // 許容距離内にいるかどうかを確認
-            if (distance <= interactionRange)
+            if (distance <= playerManager.interactionRange)
             {
                 // Enemyを破壊
                 Destroy(enemy);
@@ -94,7 +78,7 @@ public class PlayerAttack : MonoBehaviour
         GameObject nearestEnemy = null;
         float nearestDistance = Mathf.Infinity;
 
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(mainCamera); // カメラの視錘台（frustum）のプレーンを取得
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(playerManager.mainCamera); // カメラの視錘台（frustum）のプレーンを取得
 
         foreach (GameObject enemy in enemies)
         {
@@ -116,7 +100,7 @@ public class PlayerAttack : MonoBehaviour
     void ShootBeam(GameObject target)
     {
         // ビームをプレファブからインスタンス化
-        GameObject beamInstance = Instantiate(beamPrefab, firePoint.position, firePoint.rotation);
+        GameObject beamInstance = Instantiate(playerManager.beamPrefab, playerManager.firePoint.position, playerManager.firePoint.rotation);
 
         // ビームのスクリプトを取得
         Bullet beamScript = beamInstance.GetComponent<Bullet>();
@@ -128,12 +112,5 @@ public class PlayerAttack : MonoBehaviour
         Destroy(beamInstance, 5f);
     }
 
-    private void OnDrawGizmos()
-    {
-        // ギズモの色を設定
-        Gizmos.color = Color.yellow;
-
-        // ギズモの範囲を表示
-        Gizmos.DrawWireSphere(transform.position, interactionRange);
-    }
+  
 }

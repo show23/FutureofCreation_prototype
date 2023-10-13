@@ -4,42 +4,32 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-   
-    
+
+    PlayerManager playerManager;
     //ƒVƒ“ƒOƒ‹ƒgƒ“
     public static PlayerMove instance;
     float inputHorizontal;
     float inputVertical;
     Rigidbody rb;
 
-    public float moveSpeed = 30f;
-    public float dashSpeed = 50f;
+    private float moveSpeed;
+    private float dashSpeed;
 
     private Vector3 initialPosition;
     
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    
     void Start()
     {
+        playerManager = GetComponent<PlayerManager>();
         rb = GetComponent<Rigidbody>();
         initialPosition = transform.position;
-        
     }
 
     void Update()
     {
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
-
+        moveSpeed = playerManager.moveSpeed;
     }
 
     void FixedUpdate()

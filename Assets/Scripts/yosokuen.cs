@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class yosokuen : MonoBehaviour
 {
-   
+    PlayerManager playerManager;
     // ターゲットとなるオブジェクトのTransformコンポーネントを取得
     private Transform targetTransform;
     private KeyCode hikiyosae;
@@ -25,6 +25,7 @@ public class yosokuen : MonoBehaviour
 
     private void Start()
     {
+        playerManager = GetComponent<PlayerManager>();
         // ターゲットオブジェクトを名前で検索し、そのTransformを取得
         targetTransform = GameObject.Find("トーラス").transform;
 
@@ -36,8 +37,8 @@ public class yosokuen : MonoBehaviour
     {
 
         //otamesi = PlayerAttractor.instance.attractionKey;
-        attack = PlayerAttack.instance.attackKey;
-        range = PlayerAttack.instance.interactionRange * 0.07f;
+        attack = playerManager.attackKey;
+        range = playerManager.interactionRange * 0.08f;
         if(Input.GetKey(attack))
         {
             isResizing = true;

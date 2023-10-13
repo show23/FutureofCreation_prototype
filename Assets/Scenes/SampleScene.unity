@@ -1233,7 +1233,6 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194230}
   - component: {fileID: 963194231}
-  - component: {fileID: 963194232}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1466,18 +1465,6 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1
---- !u!114 &963194232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 364e0348b16b4fe409117f9fa00a990c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1200882690 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1858121993060286194, guid: 1d8f469755595374696e3e5cbc414496, type: 3}
@@ -1500,10 +1487,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89792605639d52479ee86743549ad3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attractionRange: 50
-  attractionForce: 1000
-  maxSpeed: 1000
-  stopDistance: 15
 --- !u!114 &1200882699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1516,12 +1499,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d603c450a56db8945a5fd94b4e2c21ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionRange: 0
-  attackKey: 101
-  increasedRange: 100
-  maxInteractionRange: 50
-  beamPrefab: {fileID: 6209920713220862906, guid: a6fcbfa6a24ed7f4d9c091f3c77b8292, type: 3}
-  firePoint: {fileID: 522601936}
 --- !u!114 &1200882700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1650,11 +1627,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399fd31999fb3614fb88236bf455328a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineRenderer: {fileID: 1200882712}
+--- !u!114 &1200882725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200882690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 527714f9b11f8f3428e42c019d5d0b50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 30
+  dashSpeed: 50
+  attackKey: 101
+  increasedSpeed: 100
+  maxInteractionRange: 50
+  attractionRange: 50
+  attractionForce: 1000
+  maxSpeed: 1000
+  stopDistance: 20
   enemyTag: Enemy
   buttonPressDuration: 5
-  maxDistance: 10
+  maxDistance: 5
+  mainCamera: {fileID: 963194227}
   player: {fileID: 1200882697}
+  lineRenderer: {fileID: 1200882712}
+  beamPrefab: {fileID: 6209920713220862906, guid: a6fcbfa6a24ed7f4d9c091f3c77b8292, type: 3}
+  firePoint: {fileID: 522601936}
+  interactionRange: 0
 --- !u!4 &1250840926 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1280e7776f73ba94d87303e40faf30a1, type: 3}
@@ -2106,6 +2108,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1858121993060286194, guid: 1d8f469755595374696e3e5cbc414496, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1200882719}
+    - targetCorrespondingSourceObject: {fileID: 1858121993060286194, guid: 1d8f469755595374696e3e5cbc414496, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1200882725}
   m_SourcePrefab: {fileID: 100100000, guid: 1d8f469755595374696e3e5cbc414496, type: 3}
 --- !u!1 &1587485332
 GameObject:
